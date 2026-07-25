@@ -66,35 +66,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return `${y}-${m}-${d}`;
     }
 
-    // Collect all yellow dates (today - today+3)
-    const yellowDates = [];
-    for (let i = 0; i <= 3; i++) {
-        const d = new Date(today);
-        d.setDate(today.getDate() + i);
-        yellowDates.push(toDateStr(d));
-    }
-
-    // Build events array:
-    // - Red for booked dates
-    // - Yellow for < 3-day-notice dates
-    const calendarEvents = [];
-    bookedDates.forEach(dateStr => {
-        calendarEvents.push({
-            start: dateStr,
-            display: "background",
-            classNames: ["booked-date"]
-        });
-    });
-    yellowDates.forEach(dateStr => {
-        if (!bookedDates.includes(dateStr)) {
-            calendarEvents.push({
-                start: dateStr,
-                display: "background",
-                classNames: ["notice-date"]
-            });
-        }
-    });
-
     const calendar = new FullCalendar.Calendar(calendarElement, {
 
         initialView: "dayGridMonth",
@@ -107,13 +78,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             const cellDateStr = toDateStr(info.date);
             const cellDate = new Date(info.date);
             cellDate.setHours(0, 0, 0, 0);
-
-            if (bookedDates.includes(cellDateStr)) {
-                // red — handled by CSS class
+        
+            if (cellDate < today) {
+                // white — past dates (do nothing)
+            } else if (bookedDates.includes(cellDateStr)) {
+                info.el.style.backgroundColor = "#ffb3b3"; // red — booked dates
             } else if (cellDate < minimumBookingDate) {
-                // yellow — handled by CSS class
+                info.el.style.backgroundColor = "#fff0a0"; // yellow — grace period
             } else {
-                info.el.style.backgroundColor = "#d4f5ef";
+                info.el.style.backgroundColor = "#d4f5ef"; // green — available dates
             }
         },
 
@@ -151,8 +124,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "Selected Date: <strong>" + info.dateStr + "</strong>";
 
         },
-
-        events: calendarEvents
 
     });
 
