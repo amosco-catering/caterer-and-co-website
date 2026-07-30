@@ -170,17 +170,16 @@ router.post("/admin/settings/email", requireAdmin, async (req, res) => {
         if (error) throw error;
 
         req.session.adminEmail = email;
-        res.render("admin-settings", { 
-            success: "Email updated successfully!", 
-            error: null,
-            adminEmail: email
-        });
+        res.redirect("/admin/settings");
+
     } catch (err) {
         console.error(err);
+        const { data: packages } = await supabase.from("packages").select("*").order("id");
         res.render("admin-settings", { 
             success: null, 
             error: "Failed to update email.",
-            adminEmail: req.session.adminEmail
+            adminEmail: req.session.adminEmail,
+            packages: packages || []
         });
     }
 });
@@ -192,10 +191,12 @@ router.post("/admin/settings/password", requireAdmin, async (req, res) => {
     const { password, confirm_password } = req.body;
 
     if (password !== confirm_password) {
+        const { data: packages } = await supabase.from("packages").select("*").order("id");
         return res.render("admin-settings", { 
             success: null, 
             error: "Passwords do not match.",
-            adminEmail: req.session.adminEmail
+            adminEmail: req.session.adminEmail,
+            packages: packages || []
         });
     }
 
@@ -208,12 +209,15 @@ router.post("/admin/settings/password", requireAdmin, async (req, res) => {
         if (error) throw error;
 
         res.redirect("/admin/settings");
+
     } catch (err) {
         console.error(err);
+        const { data: packages } = await supabase.from("packages").select("*").order("id");
         res.render("admin-settings", { 
             success: null, 
             error: "Failed to update password.",
-            adminEmail: req.session.adminEmail
+            adminEmail: req.session.adminEmail,
+            packages: packages || []
         });
     }
 });
