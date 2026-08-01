@@ -47,17 +47,8 @@ router.get("/", async (req, res) => {
             .from("packages")
             .select("*")
             .order("id");
-            console.log(JSON.stringify(packages, null, 2));
 
         if (packageError) throw packageError;
-
-        console.log("PACKAGES:");
-        packages.forEach(pkg => {
-            console.log(pkg.package_title);
-            console.log("package_contents =", pkg.package_contents);
-            console.log("type =", typeof pkg.package_contents);
-            console.log("isArray =", Array.isArray(pkg.package_contents));
-        });
 
         res.render("index", {
             portfolioItems: itemsWithImages,
@@ -293,7 +284,7 @@ router.post("/book", async (req, res) => {
         venue_location,
         number_of_guest,
         design_motif,
-        package
+        package: selectedPackage
     } = req.body;
 
     try {
@@ -354,7 +345,7 @@ router.post("/book", async (req, res) => {
                     venue_location,
                     number_of_guest: Number(number_of_guest),
                     design_motif,
-                    package
+                    package: selectedPackage
                 }
             ])
             .select();
