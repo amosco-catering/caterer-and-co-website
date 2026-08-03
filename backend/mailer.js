@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 async function notifyAdminNewBooking(booking) {
     await resend.emails.send({
         from: "The Caterer & Co <onboarding@resend.dev>",
-        to: process.env.DEV_EMAIL, // change to ADMIN_EMAIL before passing to the client (in .env and render.com as well)
+        to: process.env.ADMIN_EMAIL,
         subject: `New Booking Request — ${booking.first_name} ${booking.last_name}`,
         html: `
             <h2>New Booking Request</h2>

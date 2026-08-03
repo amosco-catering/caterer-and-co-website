@@ -20,7 +20,10 @@ describe("Admin Auth", () => {
     test("POST /admin/login — succeeds with correct credentials", async () => {
         const res = await request(app)
             .post("/admin/login")
-            .send({ email: "test@email.com", password: "password" });
+            .send({ 
+                email: process.env.TEST_EMAIL, 
+                password: process.env.TEST_PASSWORD 
+            });
         expect(res.status).toBe(302); // redirect to /
         expect(res.headers.location).toBe("/");
     });
@@ -29,7 +32,10 @@ describe("Admin Auth", () => {
         const agent = request.agent(app);
         await agent
             .post("/admin/login")
-            .send({ email: "test@email.com", password: "password" });
+            .send({ 
+                email: process.env.TEST_EMAIL, 
+                password: process.env.TEST_PASSWORD 
+            });
         const res = await agent.get("/admin/logout");
         expect(res.status).toBe(302);
         expect(res.headers.location).toBe("/");
@@ -45,7 +51,10 @@ describe("Admin Auth", () => {
         const agent = request.agent(app);
         await agent
             .post("/admin/login")
-            .send({ email: "test@email.com", password: "password" });
+            .send({ 
+                email: process.env.TEST_EMAIL, 
+                password: process.env.TEST_PASSWORD 
+            });
         const res = await agent.get("/admin/settings");
         expect(res.status).toBe(200);
         expect(res.text).toContain("Admin Settings");

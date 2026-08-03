@@ -1,9 +1,17 @@
+const bcrypt = require("bcrypt");
 const express = require("express");
-const router = express.Router();
-const supabase = require("../supabaseclient");
 const multer = require("multer");
+
+const supabase = require("../supabaseclient");
+
+const { 
+  notifyAdminNewBooking, 
+  notifyCustomerAccepted, 
+  notifyCustomerRejected 
+} = require("../mailer");
+
+const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
-const { notifyAdminNewBooking, notifyCustomerAccepted, notifyCustomerRejected } = require("../mailer");
 
 // =========================
 // AUTH MIDDLEWARE
@@ -84,10 +92,14 @@ router.post("/admin/login", async (req, res) => {
             .from("admin_accounts")
             .select("*")
             .eq("email", email)
-            .eq("password", password)
             .single();
 
         if (error || !data) {
+            return res.render("admin-login", { error: "Invalid username or password." });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, data.password);
+        if (!passwordMatch) {
             return res.render("admin-login", { error: "Invalid username or password." });
         }
 
@@ -191,10 +203,12 @@ router.post("/admin/settings/password", requireAdmin, async (req, res) => {
         });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     try {
         const { error } = await supabase
             .from("admin_accounts")
-            .update({ password })
+            .update({ password: hashedPassword })
             .eq("email", req.session.adminEmail);
 
         if (error) throw error;
