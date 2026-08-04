@@ -2,7 +2,7 @@
 
 A full-stack catering business website built with Node.js, Express, EJS, and Supabase. Features a customer-facing booking system with an interactive availability calendar, a dynamic portfolio gallery, and package listings. Includes a password-protected admin panel for managing bookings, portfolio items, and catering packages. Deployed on Render.
 
-**Live URL:** https://amosco-catering-website.onrender.com
+**Live URL:** [https://amosco-catering-website.onrender.com](https://amosco-catering-website-jfko.onrender.com)
 
 ---
 
