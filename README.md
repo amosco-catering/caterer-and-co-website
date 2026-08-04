@@ -2,8 +2,6 @@
 
 A full-stack catering business website built with Node.js, Express, EJS, and Supabase. Features a customer-facing booking system with an interactive availability calendar, a dynamic portfolio gallery, and package listings. Includes a password-protected admin panel for managing bookings, portfolio items, and catering packages. Deployed on Render.
 
-**Live URL:** https://amosco-catering-website-jfko.onrender.com/
-
 ---
 
 ## Table of Contents
@@ -67,8 +65,6 @@ Accessible at `/admin/login` — URL is intentionally not linked anywhere on the
 
 ### Email Notifications (via Resend)
 - Admin receives an email on every new pending booking with full booking details
-- Customer receives a confirmation email when their booking is accepted
-- Customer receives a rejection email with reason when their booking is rejected
 
 ---
 
@@ -79,21 +75,21 @@ project/
 ├── backend/
 │   ├── node_modules/
 │   ├── public/
-│   │   ├── images/          ← static images (add favicon.png here)
-│   │   ├── script.js        ← booking form validation + FullCalendar logic
-│   │   └── style.css        ← all site styles
+│   │   ├── images/           ← static images (add favicon.png here)
+│   │   ├── script.js         ← booking form validation + FullCalendar logic
+│   │   └── style.css         ← all site styles
 │   ├── routes/
-│   │   └── routes.js        ← all Express routes (home, admin, booking, portfolio, packages)
+│   │   └── routes.js         ← all Express routes (home, admin, booking, portfolio, packages)
 │   ├── tests/
-│   │   ├── auth.test.js     ← admin auth tests
-│   │   ├── booking.test.js  ← booking system tests
-│   │   ├── packages.test.js ← package manager tests
-│   │   └── portfolio.test.js← portfolio manager tests
-│   ├── .env                 ← environment variables (never commit this)
-│   ├── index.js             ← Express server entry point
-│   ├── mailer.js            ← Resend email functions
+│   │   ├── auth.test.js      ← admin auth tests
+│   │   ├── booking.test.js   ← booking system tests
+│   │   ├── packages.test.js  ← package manager tests
+│   │   └── portfolio.test.js ← portfolio manager tests
+│   ├── .env                  ← environment variables (hidden/cached)
+│   ├── index.js              ← Express server entry point
+│   ├── mailer.js             ← Resend email functions
 │   ├── package.json
-│   └── supabaseclient.js    ← Supabase client initialization
+│   └── supabaseclient.js     ← Supabase client initialization
 └── frontend/
     ├── admin-bookings.ejs   ← admin bookings management page
     ├── admin-login.ejs      ← admin login page
@@ -106,37 +102,42 @@ project/
 
 ## Environment Variables
 
-Create a `backend/.env` file with the following variables:
+Key=Value format of the hidden/cached `.env`:
 
 ```env
-PORT=5001
-SESSION_SECRET=your_session_secret_here
+PORT=<port>
+SESSION_SECRET=<session secret>
 
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_KEY=your_supabase_service_role_key
+SUPABASE_URL=<supabase URL>
+SUPABASE_KEY=<supabase key>
+SUPABASE_SERVICE_KEY=<supabase service key>
 
-RESEND_API_KEY=your_resend_api_key
-DEV_EMAIL=admin@example.com
+RESEND_API_KEY=<resend API key>
+ADMIN_EMAIL=<admin email>
+TEST_EMAIL=<test email>
+TEST_PASSWORD=<test password>
 ```
 
 ### Variable Reference
 
 | Variable | Description |
 |---|---|
-| `PORT` | Server port (Render sets this automatically in production) |
-| `SESSION_SECRET` | Secret key for signing session cookies — use a long random string |
+| `PORT` | Server port, usually used for local testing of the website |
+| `SESSION_SECRET` | Secret key for signing session cookies |
 | `SUPABASE_URL` | Found in Supabase project → Settings → API |
-| `SUPABASE_KEY` | Supabase anon/public key — used for most DB operations |
-| `SUPABASE_SERVICE_KEY` | Supabase service role key — bypasses RLS, used for storage uploads |
+| `SUPABASE_KEY` | Supabase public key — used for most DB operations |
+| `SUPABASE_SERVICE_KEY` | Supabase service role key — bypasses RLS |
 | `RESEND_API_KEY` | Found in Resend dashboard → API Keys |
-| `DEV_EMAIL` | The email address that receives admin booking notifications |
+| `ADMIN_EMAIL` | The email address that receives admin booking notifications |
+| `TEST_EMAIL` | Used for the initial testing of admin features — now used for the test scripts |
+| `TEST_PASSWORD` | Used for the initial testing of admin features — now used for the test scripts |
 
-> ⚠️ **Never commit `.env` to GitHub.** It is listed in `.gitignore`.
+> The `.env` is listed in `.gitignore`. It won't be found in the repository.
+> To view each variable's actual values, visit the website's Render Web Service → Environments.
 
 ---
 
-## How to Run Locally
+## Local Run
 
 ### Prerequisites
 - Node.js v18+ installed
@@ -147,8 +148,8 @@ DEV_EMAIL=admin@example.com
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-org/your-repo.git
-cd your-repo
+git clone "https://github.com/amosco-catering/caterer-and-co-website.git"
+cd caterer-and-co-website
 ```
 
 2. **Install dependencies**
@@ -170,23 +171,23 @@ npm run dev
 
 ---
 
-## How to Deploy
+## Deployment
 
-The site is deployed on **Render** (free tier). Render auto-deploys whenever the `main` branch is pushed to GitHub.
+The site was deployed on **Render** (free tier). Render auto-deploys whenever the `main` branch is pushed to GitHub.
 
 ### Initial Setup
-1. Sign up at [render.com](https://render.com)
-2. Click **New → Web Service** → connect GitHub repo
+1. Signed up ADMIN_EMAIL at [render.com](https://render.com)
+2. Created **New → Web Service** → connected this GitHub repo
 3. Set:
    - **Language**: Node
    - **Root Directory**: `backend`
    - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-4. Add all environment variables under the **Environment** tab
-5. Click **Deploy Web Service**
+   - **Start Command**: `node index.js`
+4. Added all environment variables under the **Environment** tab
+5. Clicked **Deploy Web Service**
 
 ### Keeping the Site Awake
-Render's free tier spins down after 15 minutes of inactivity. **UptimeRobot** is set up to ping the site every 5 minutes to prevent this. If UptimeRobot is not configured, set it up at [uptimerobot.com](https://uptimerobot.com) — create a free monitor pointing to the live URL with a 5-minute interval.
+Render's free tier spins down after 15 minutes of inactivity. **UptimeRobot** is set up to ping the site every 5 minutes to prevent this. To access the monitoring, sign in at [uptimerobot.com](https://uptimerobot.com) using ADMIN_EMAIL.
 
 ---
 
@@ -272,12 +273,13 @@ create table public.packages (
 Navigate to `/admin/login` — this URL is intentionally hidden from the public site. The admin should bookmark it.
 
 ### Default Credentials
-Credentials are stored in the `admin_accounts` table in Supabase. To add or change credentials, either update the row directly in Supabase or use the Settings page once logged in.
+Credentials are stored in the `admin_accounts` table in Supabase. To add or change credentials, either update the row directly in Supabase or use the Settings page once logged in (i.e. no UI within the website itself to add/create new admin accounts).
 
 ### Managing Bookings (`/admin/bookings`)
-- All bookings are listed grouped by status: **Pending**, **Accepted**, **Rejected**
-- Click **Accept** to confirm a booking — customer receives a confirmation email automatically
-- Click **Reject** to decline — a prompt appears for the rejection reason, which is included in the customer's email
+- All bookings are listed grouped by status: **Pending**, **Accepted**, **Rejected**:
+- Click `Book Event` and a new booking instance is immediately set as **Pending** - while the admin receives an email (via Resend)
+- Click **Accept** to confirm a booking (blocks that date within the dynamic calendar)
+- Click **Reject** to decline a booking (no real effect - could be better implemented)
 
 ### Managing Portfolio (`/` when logged in)
 - Click **Add Portfolio Item** to create a new entry with title, description, and images
@@ -288,7 +290,7 @@ Credentials are stored in the `admin_accounts` table in Supabase. To add or chan
 - **Delete Portfolio** removes the entire portfolio item and all its images from storage
 
 ### Managing Packages (`/admin/settings`)
-- Scroll to the **Package Manager** section
+- Scroll down to the **Package Manager** section
 - Fill in the **Add Package** form — package contents and venue styling are entered one item per line
 - Existing packages are listed below with an **Edit Package** expandable section
 - Click **Delete Package** to remove a package
@@ -304,26 +306,19 @@ Credentials are stored in the `admin_accounts` table in Supabase. To add or chan
 The site uses **Resend** for transactional emails. All email logic is in `backend/mailer.js`.
 
 ### How It Works
-- `notifyAdminNewBooking(booking)` — sends booking details to `DEV_EMAIL` when a customer submits a booking
-- `notifyCustomerAccepted(booking)` — sends confirmation to the customer's email when admin accepts
-- `notifyCustomerRejected(booking, reason)` — sends rejection with reason to the customer's email
+- `notifyAdminNewBooking(booking)` — sends booking details to `ADMIN_EMAIL` when a customer submits a booking
+- `notifyCustomerAccepted(booking)` — unused
+- `notifyCustomerRejected(booking, reason)` — unused
+> **Reason for unused `notifyCustomer` features**: Resend requires a verified email domain for multiple email sending
 
 ### Current Limitation
 The site currently uses Resend's `onboarding@resend.dev` sender domain, which is a **test domain** with the following restriction:
-- Can only send to the email address registered on the Resend account
+- Can only send to the email address registered on the Resend account (`ADMIN_EMAIL`)
+- Admin notification took precedence over customer notification
 
 This means:
-- Admin notification emails work correctly (sent to `DEV_EMAIL` = the Resend account email)
+- Admin notification emails work correctly (sent to `ADMIN_EMAIL` - the Resend account email)
 - Customer acceptance/rejection emails are **blocked by Resend** unless the customer's email matches the Resend account email
-
-### To Fix Before Going Live
-1. Purchase a domain for the business (e.g. `thecatererandco.com`)
-2. Verify the domain in the Resend dashboard under **Domains**
-3. Update the `from` field in all three functions in `mailer.js`:
-```js
-from: "The Caterer & Co <noreply@thecatererandco.com>",
-```
-4. Redeploy
 
 ---
 
@@ -348,10 +343,10 @@ npm test
 
 ### Test Admin Account
 Tests use a dedicated test admin account in the `admin_accounts` table:
-- **Email**: `test@email.com`
-- **Password**: `password`
+- **Email**: `TEST_EMAIL` (hidden for security)
+- **Password**: `TEST_PASSWORD` (hidden for security)
 
-> Do not delete this account from Supabase or the tests will fail.
+> If deleted from Supabase, test scripts will fail.
 
 ### Notes
 - Tests interact with the **live Supabase database** — there is no separate test database
@@ -363,55 +358,13 @@ Tests use a dedicated test admin account in the `admin_accounts` table:
 ## Known Limitations
 
 1. **Email sender domain** — customer-facing emails (accept/reject) are blocked until a custom domain is verified in Resend (see [Email Notifications](#email-notifications))
-2. **Passwords stored as plain text** — admin passwords in `admin_accounts` are not hashed. This should be addressed before the site handles sensitive data at scale (use `bcrypt`)
-3. **Single admin account** — the system supports multiple rows in `admin_accounts` but the UI only manages one set of credentials at a time
-4. **No favicon** — a favicon should be added once the client provides a logo. Place the image as `backend/public/images/favicon.png` and add `<link rel="icon" type="image/png" href="/images/favicon.png" />` to the `<head>` of all five EJS files
-5. **Render free tier spin-down** — mitigated by UptimeRobot but first load after inactivity may be slow
-6. **Package selection in booking is static label only** — the selected package name is saved as a string; there is no FK link to the `packages` table
+2. **Single admin account** — the system supports multiple rows in `admin_accounts` but the UI only manages one set of credentials at a time
+3. **No favicon** — a favicon should be added once the client provides a logo. Place the image as `backend/public/images/favicon.png` and add `<link rel="icon" type="image/png" href="/images/favicon.png" />` to the `<head>` of all five EJS files
+4. **Render free tier spin-down** — mitigated by UptimeRobot but first load after inactivity may be slow
+5. **Package selection in booking is static label only** — the selected package name is saved as a string; there is no FK link to the `packages` table
 
 ---
 
-## Handoff Notes
-
-When transferring the project to the client's accounts, the following need to be updated:
-
-### Resend
-1. Create a new Resend account with the client's email
-2. Generate a new API key
-3. Update `RESEND_API_KEY` in Render's environment variables
-4. Update `DEV_EMAIL` in Render's environment variables to the client's email
-
-### `mailer.js` (code change required)
-The comments in `mailer.js` mark the lines that need updating:
-```js
-// change to ADMIN_EMAIL once passed to our client
-// !!! ALSO CHANGE IN .env FILE AND render.com ENVIRONMENTS !!!
-```
-Replace `DEV_EMAIL` references with the new environment variable name if renamed.
-
-### Admin Credentials
-Update the admin account in Supabase (`admin_accounts` table) with the client's preferred email and password.
-
-### GitHub
-Transfer repository ownership to the client's GitHub account via **Settings → General → Transfer repository**.
-
-### Render
-Transfer the web service to the client's Render account via **Settings → Transfer Service**.
-
-### Supabase
-Transfer the project to the client's Supabase organization via **Project Settings → General → Transfer project**.
-
-### UptimeRobot
-Re-create the monitor under the client's UptimeRobot account pointing to the live Render URL.
-
----
-
-## Contributors
-
-| Name | Role |
-|---|---|
-| *(add your team members here)* | *(add roles here)* |
-
----
-
-*Built for CSSWENG — De La Salle University*
+**Live URLs:** 
+- Customer View: https://amosco-catering-website-jfko.onrender.com/
+- Admin Login: https://amosco-catering-website-jfko.onrender.com/admin/login
