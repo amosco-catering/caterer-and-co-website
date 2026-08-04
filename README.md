@@ -10,15 +10,14 @@ A full-stack catering business website built with Node.js, Express, EJS, and Sup
 2. [Features](#features)
 3. [Project Structure](#project-structure)
 4. [Environment Variables](#environment-variables)
-5. [How to Run Locally](#how-to-run-locally)
-6. [How to Deploy](#how-to-deploy)
+5. [Local Run](#local-run)
+6. [Deployment](#deployment)
 7. [Database Schema](#database-schema)
 8. [Admin Panel Guide](#admin-panel-guide)
 9. [Email Notifications](#email-notifications)
 10. [Test Suite](#test-suite)
 11. [Known Limitations](#known-limitations)
-12. [Handoff Notes](#handoff-notes)
-
+12. [Live URLs](#live-urls)
 ---
 
 ## Tech Stack
@@ -91,11 +90,11 @@ project/
 │   ├── package.json
 │   └── supabaseclient.js     ← Supabase client initialization
 └── frontend/
-    ├── admin-bookings.ejs   ← admin bookings management page
-    ├── admin-login.ejs      ← admin login page
-    ├── admin-settings.ejs   ← admin settings + package manager page
-    ├── index.ejs            ← main public homepage
-    └── portfolio-item.ejs   ← individual portfolio detail page
+    ├── admin-bookings.ejs    ← admin bookings management page
+    ├── admin-login.ejs       ← admin login page
+    ├── admin-settings.ejs    ← admin settings + package manager page
+    ├── index.ejs             ← main public homepage
+    └── portfolio-item.ejs    ← individual portfolio detail page
 ```
 
 ---
@@ -187,7 +186,7 @@ The site was deployed on **Render** (free tier). Render auto-deploys whenever th
 5. Clicked **Deploy Web Service**
 
 ### Keeping the Site Awake
-Render's free tier spins down after 15 minutes of inactivity. **UptimeRobot** is set up to ping the site every 5 minutes to prevent this. To access the monitoring, sign in at [uptimerobot.com](https://uptimerobot.com) using ADMIN_EMAIL.
+Render's free tier spins down after 15 minutes of inactivity. **UptimeRobot** is set up to ping the site every 5 minutes to prevent this. To access the monitoring, sign in at [uptimerobot.com](https://uptimerobot.com) using `ADMIN_EMAIL`.
 
 ---
 
@@ -365,6 +364,6 @@ Tests use a dedicated test admin account in the `admin_accounts` table:
 
 ---
 
-**Live URLs:** 
+## Live URLs:
 - Customer View: https://amosco-catering-website-jfko.onrender.com/
 - Admin Login: https://amosco-catering-website-jfko.onrender.com/admin/login
