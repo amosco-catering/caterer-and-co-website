@@ -10,7 +10,7 @@ async function notifyAdminNewBooking(booking) {
     
     await resend.emails.send({
         from: "The Caterer & Co <onboarding@resend.dev>",
-        to: johngabrielcalderon171@gmail.com // process.env.ADMIN_EMAIL,
+        to: "johngabrielcalderon171@gmail.com" // process.env.ADMIN_EMAIL,
         subject: `New Booking Request — ${booking.first_name} ${booking.last_name}`,
         html: `
             <h2>New Booking Request</h2>
