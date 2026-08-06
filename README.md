@@ -376,12 +376,13 @@ Tests use a dedicated test admin account in the `admin_accounts` table:
 
 ## Important URLs
 
-### Live Website URL:
+### Live Website:
 - Customer View: https://amosco-catering-website-jfko.onrender.com/
 - Admin Login: https://amosco-catering-website-jfko.onrender.com/admin/login
 
-### Platforms/Services/APIs:
+### Dashboards:
 - Supabase: https://supabase.com/dashboard/project/enztndikvcotdepantmw
 - Render: https://dashboard.render.com/web/srv-d9ok55nlk1mc739dd6d0
 - UptimeRobot: https://dashboard.uptimerobot.com/monitors/803657139
 - Resend: https://resend.com/emails
+> All dashboards are registered under `ADMIN_EMAIL`. Sign in at each platform using that email.
