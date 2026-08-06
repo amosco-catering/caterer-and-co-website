@@ -6,6 +6,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // NOTIFY ADMIN OF NEW BOOKING
 // =========================
 async function notifyAdminNewBooking(booking) {
+    const siteUrl = process.env.ADMIN_LOGIN || "http://localhost:5001";
+    
     await resend.emails.send({
         from: "The Caterer & Co <onboarding@resend.dev>",
         to: process.env.ADMIN_EMAIL,
@@ -25,7 +27,7 @@ async function notifyAdminNewBooking(booking) {
                 <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Design Motif</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${booking.design_motif || "None specified"}</td></tr>
             </table>
             <br>
-            <p>Log in to the admin panel to accept or reject this booking.</p>
+            <p>Log in to the <a href="${siteUrl}" style="color: #007bff; text-decoration: underline;">website</a> to accept or reject this booking.</p>
         `
     });
 }
