@@ -17,7 +17,7 @@ A full-stack catering business website built with Node.js, Express, EJS, and Sup
 9. [Email Notifications](#email-notifications)
 10. [Test Suite](#test-suite)
 11. [Known Limitations](#known-limitations)
-12. [Live URLs](#live-urls)
+12. [Important URLs](#important-urls)
 ---
 
 ## Tech Stack
@@ -326,8 +326,18 @@ This means:
 Tests are written using **Jest** and **Supertest**. All test data is automatically cleaned up from Supabase after each test run.
 
 ### Running Tests
+The tests need to be ran from the `backend\` folder since that is where `package.json` is located.
 ```bash
 cd backend
+```
+Before running ``npm test`` commands below, make sure to create the complete `.env` file using the Environment Variables in the Render Web Service.
+```bash
+npm test
+```
+If ``npm test`` fails, try running an ``npm install`` and ``npm audit fix`` (if needed) first.
+```bash
+npm install
+npm audit fix
 npm test
 ```
 
@@ -364,6 +374,14 @@ Tests use a dedicated test admin account in the `admin_accounts` table:
 
 ---
 
-## Live URLs:
+## Important URLs
+
+### Live Website URL:
 - Customer View: https://amosco-catering-website-jfko.onrender.com/
 - Admin Login: https://amosco-catering-website-jfko.onrender.com/admin/login
+
+### Platforms/Services/APIs:
+- Supabase: https://supabase.com/dashboard/project/enztndikvcotdepantmw
+- Render: https://dashboard.render.com/web/srv-d9ok55nlk1mc739dd6d0
+- UptimeRobot: https://dashboard.uptimerobot.com/monitors/803657139
+- Resend: https://resend.com/emails
