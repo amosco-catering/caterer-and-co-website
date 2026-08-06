@@ -9,7 +9,7 @@ async function notifyAdminNewBooking(booking) {
     const siteUrl = process.env.ADMIN_LOGIN || "http://localhost:5001";
     
     await resend.emails.send({
-        from: "The Caterer & Co <onboarding@resend.dev>",
+        from: "onboarding@resend.dev",
         to: process.env.ADMIN_EMAIL,
         subject: `New Booking Request — ${booking.first_name} ${booking.last_name}`,
         html: `
