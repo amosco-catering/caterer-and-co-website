@@ -42,7 +42,10 @@
 
         <div class="form-group">
           <label>Password</label>
-          <input type="password" name="password" required />
+          <div style="position: relative;">
+            <input type="password" name="password" id="login-password" required style="padding-right: 45px;" />
+            <span onclick="togglePassword('login-password', this)" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #a07060; font-size: 0.85rem; user-select: none;">Show</span>
+          </div>
         </div>
 
         <button class="book-btn" type="submit">Sign In</button>
@@ -51,6 +54,19 @@
 
     </div>
   </div>
+
+<script>
+  function togglePassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = 'Hide';
+    } else {
+      input.type = 'password';
+      btn.textContent = 'Show';
+    }
+  }
+</script>
 
 </body>
 </html>
