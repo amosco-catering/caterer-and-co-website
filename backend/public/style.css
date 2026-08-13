@@ -1228,4 +1228,18 @@ a.portfolio-item {
   .rates-list li {
     font-size: 0.78rem;
   }
+
+  /* Make images in portfolio-item.ejs 2 pics per row */
+  .portfolio-detail-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .portfolio-detail-gallery img {
+    height: 180px;
+  }
+
+  .gallery-item img {
+    height: 180px;
+  }
 }
